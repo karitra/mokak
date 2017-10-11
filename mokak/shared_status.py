@@ -1,5 +1,5 @@
-from collections import namedtuple
 import time
+from collections import namedtuple
 
 
 TRIM_DESC_LIMIT = 180
@@ -9,8 +9,10 @@ def _int_seconds_from_epoch():
     return int(time.time())
 
 
-def _norm_desc(self, limit=TRIM_DESC_LIMIT):
-    pass
+def _norm_desc(desc, limit=TRIM_DESC_LIMIT):
+    if len(desc) > limit:
+        desc = desc[:limit]
+    return desc
 
 
 class _FieldsNames(object):
@@ -22,7 +24,7 @@ class _FieldsNames(object):
 class _StatusHandler(object):
 
     OK_STATUS, WARN_STATUS, CRIT_STATUS = \
-    'OK', 'WARN', 'CRIT'
+        'OK', 'WARN', 'CRIT'
 
     Status = namedtuple('Status', [
         'status',
@@ -36,17 +38,17 @@ class _StatusHandler(object):
     def mark_ok(self, desc):
         desc = self._norm_desc(desc)
         self.shared_status.mark_submodule_status(
-            name, _StatusHandler.Status(_StatusHandler.OK_STATUS, desc))
+            self.name, _StatusHandler.Status(_StatusHandler.OK_STATUS, desc))
 
     def mark_warn(self, desc):
         desc = self._norm_desc(desc)
         self.shared_status.mark_submodule_status(
-            name, _StatusHandler.Status(_StatusHandler.WARN_STATUS, desc))
+            self.name, _StatusHandler.Status(_StatusHandler.WARN_STATUS, desc))
 
     def mark_crit(self, desc):
         desc = self._norm_desc(desc)
         self.shared_status.mark_submodule_status(
-            name, _StatusHandler.Status(_StatusHandler.CRIT, desc))
+            self.name, _StatusHandler.Status(_StatusHandler.CRIT, desc))
 
 
 class SharedStatus(object):
