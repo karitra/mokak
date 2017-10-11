@@ -21,8 +21,8 @@ class _FieldsNames(object):
 
 class _StatusHandler(object):
 
-    OK_STATUS,  WARN_STATUS,    CRIT_STATUS = \
-    'OK',       'WARN',         'CRIT'
+    OK_STATUS, WARN_STATUS, CRIT_STATUS = \
+    'OK', 'WARN', 'CRIT'
 
     Status = namedtuple('Status', [
         'status',
@@ -78,8 +78,7 @@ class SharedStatus(object):
         }
 
         return dict(
-            self.status, _FieldsNames.EXTENDEND_STATUS=extendend_status)
-
+            self.status, **{_FieldsNames.EXTENDEND_STATUS: extendend_status})
 
     def _has_status(self, status):
         return any(
