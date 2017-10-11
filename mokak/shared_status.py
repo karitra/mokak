@@ -20,6 +20,7 @@ class _FieldsNames(object):
     STATUS = 'status'
     LAST_UPDATE = 'last_update'
     EXTENDEND_STATUS = 'extendend_status'
+    DESC = 'desc'
 
 
 class _StatusHandler(object):
@@ -68,16 +69,21 @@ class SharedStatus(object):
         self.submodules_status[submodule_name] = status
 
     def as_dict(self):
-        is_crit = self._has_status(_StatusHandler.CRIT_STATUS)
-        is_warn = self._has_status(_StatusHandler.WARN_STATUS)
+        crit_submod = self._has_status(_StatusHandler.CRIT_STATUS)
+        warn_submod = self._has_status(_StatusHandler.WARN_STATUS)
 
         status = _StatusHandler.OK_STATUS
-        if is_warn:
-            status = _StatusHandler.WARN_STATUS
-        elif is_crit:
+        desc = 'system healthy and running'
+        if crit_submod:
             status = _StatusHandler.CRIT_STATUS
+            desc = 'critical errors in ' + ' '.join(crit_submod)
+        elif warn_submod:
+            status = _StatusHandler.WARN_STATUS
+            desc = 'warnings in ' + ' '.join(warn_submod)
 
         self.status[_FieldsNames.STATUS] = status
+        self.status[_FieldsNames.DESC] = desc
+
         extendend_status = {
             submodule_name: status._asdict()
             for submodule_name, status in self.submodules_status.iteritems()
@@ -87,6 +93,8 @@ class SharedStatus(object):
             self.status, **{_FieldsNames.EXTENDEND_STATUS: extendend_status})
 
     def _has_status(self, status):
-        return any(
-            st.status == status
-            for _, st in self.submodules_status.iteritems())
+        return [
+            module
+            for module, st in self.submodules_status.iteritems()
+            if st.status == status
+        ]
