@@ -11,7 +11,8 @@ def _int_seconds_from_epoch():
 
 def _norm_desc(desc, limit=TRIM_DESC_LIMIT):
     if len(desc) > limit:
-        desc = desc[:limit]
+        desc[:limit]
+    # TODO: correct to allowed symbols ''^[0-9a-Z ]{0,180}$'
     return desc
 
 
@@ -68,10 +69,10 @@ class SharedStatus(object):
         is_warn = self._has_status(_StatusHandler.WARN_STATUS)
 
         status = _StatusHandler.OK_STATUS
-        if is_crit:
+        if is_warn:
+            status = _StatusHandler.WARN_STATUS
+        elif is_crit:
             status = _StatusHandler.CRIT_STATUS
-        elif is_warn:
-            statis = _StatusHandler.WARN_STATUS
 
         self.status[_FieldsNames.STATUS] = status
         extendend_status = {
