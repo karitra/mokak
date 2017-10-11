@@ -37,17 +37,17 @@ class _StatusHandler(object):
         self.name = name
 
     def mark_ok(self, desc):
-        desc = self._norm_desc(desc)
+        desc = _norm_desc(desc)
         self.shared_status.mark_submodule_status(
             self.name, _StatusHandler.Status(_StatusHandler.OK_STATUS, desc))
 
     def mark_warn(self, desc):
-        desc = self._norm_desc(desc)
+        desc = _norm_desc(desc)
         self.shared_status.mark_submodule_status(
             self.name, _StatusHandler.Status(_StatusHandler.WARN_STATUS, desc))
 
     def mark_crit(self, desc):
-        desc = self._norm_desc(desc)
+        desc = _norm_desc(desc)
         self.shared_status.mark_submodule_status(
             self.name, _StatusHandler.Status(_StatusHandler.CRIT, desc))
 
@@ -58,7 +58,10 @@ class SharedStatus(object):
         self.submodules_status = dict()
 
     def register(self, name):
-        return _StatusHandler(self, name)
+        hnd = _StatusHandler(self, name)
+        hnd.mark_ok('init done')
+
+        return hnd
 
     def mark_submodule_status(self, submodule_name, status):
         self.status[_FieldsNames.LAST_UPDATE] = _int_seconds_from_epoch()
@@ -76,7 +79,7 @@ class SharedStatus(object):
 
         self.status[_FieldsNames.STATUS] = status
         extendend_status = {
-            submodule_name: status._as_dict()
+            submodule_name: status._asdict()
             for submodule_name, status in self.submodules_status.iteritems()
         }
 
