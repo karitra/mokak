@@ -40,17 +40,20 @@ class _StatusHandler(object):
     def mark_ok(self, desc):
         desc = _norm_desc(desc)
         self.shared_status.mark_submodule_status(
-            self.name, _StatusHandler.Status(_StatusHandler.OK_STATUS, desc))
+            self.name, _StatusHandler.Status(_StatusHandler.OK_STATUS, desc)
+        )
 
     def mark_warn(self, desc):
         desc = _norm_desc(desc)
         self.shared_status.mark_submodule_status(
-            self.name, _StatusHandler.Status(_StatusHandler.WARN_STATUS, desc))
+            self.name, _StatusHandler.Status(_StatusHandler.WARN_STATUS, desc)
+        )
 
     def mark_crit(self, desc):
         desc = _norm_desc(desc)
         self.shared_status.mark_submodule_status(
-            self.name, _StatusHandler.Status(_StatusHandler.CRIT, desc))
+            self.name, _StatusHandler.Status(_StatusHandler.CRIT_STATUS, desc)
+        )
 
 
 class SharedStatus(object):
