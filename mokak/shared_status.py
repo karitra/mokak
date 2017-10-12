@@ -58,6 +58,9 @@ class _StatusHandler(object):
 
 
 class SharedStatus(object):
+
+    HEALTHY_BANNER = 'system healthy and running'
+
     def __init__(self, name=None):
         self.status = dict(last_update=_int_seconds_from_epoch())
         self.submodules_status = dict()
@@ -80,7 +83,8 @@ class SharedStatus(object):
         warn_submod = self._has_status(_StatusHandler.WARN_STATUS)
 
         status = _StatusHandler.OK_STATUS
-        desc = 'system healthy and running'
+        desc = SharedStatus.HEALTHY_BANNER
+
         if crit_submod:
             status = _StatusHandler.CRIT_STATUS
             desc = 'critical errors in ' + ' '.join(crit_submod)
