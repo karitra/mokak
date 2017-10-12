@@ -61,12 +61,11 @@ class SharedStatus(object):
 
     HEALTHY_BANNER = 'system healthy and running'
 
-    def __init__(self, name=None):
+    def __init__(self, **kwargs):
         self.status = dict(last_update=_int_seconds_from_epoch())
         self.submodules_status = dict()
 
-        if name:
-            self.status[_FieldsNames.NAME] = name
+        self.status.update(kwargs)
 
     def register(self, name):
         hnd = _StatusHandler(self, name)
