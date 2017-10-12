@@ -11,7 +11,7 @@ def _int_seconds_from_epoch():
 
 def _norm_desc(desc, limit=TRIM_DESC_LIMIT):
     if len(desc) > limit:
-        desc[:limit]
+        desc = desc[:limit]
     # TODO: correct to allowed symbols ''^[0-9a-Z ]{0,180}$'
     return desc
 
