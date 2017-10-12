@@ -21,6 +21,7 @@ class _FieldsNames(object):
     LAST_UPDATE = 'last_update'
     EXTENDEND_STATUS = 'extendend_status'
     DESC = 'desc'
+    NAME = 'name'
 
 
 class _StatusHandler(object):
@@ -57,9 +58,12 @@ class _StatusHandler(object):
 
 
 class SharedStatus(object):
-    def __init__(self):
+    def __init__(self, name=None):
         self.status = dict(last_update=_int_seconds_from_epoch())
         self.submodules_status = dict()
+
+        if name:
+            self.status[_FieldsNames.NAME] = name
 
     def register(self, name):
         hnd = _StatusHandler(self, name)
