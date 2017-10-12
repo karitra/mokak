@@ -59,7 +59,7 @@ class _StatusHandler(object):
 
 class SharedStatus(object):
 
-    HEALTHY_BANNER = 'system healthy and running'
+    HEALTHY_BANNER = 'service healthy and running'
 
     def __init__(self, **kwargs):
         self.status = dict(last_update=_int_seconds_from_epoch())
