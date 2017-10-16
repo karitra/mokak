@@ -23,7 +23,7 @@ class _FieldsNames(object):
     DESC = 'desc'
     NAME = 'name'
 
-
+# TODO: separate description and optional parameters
 class _StatusHandler(object):
 
     OK_STATUS, WARN_STATUS, CRIT_STATUS = \

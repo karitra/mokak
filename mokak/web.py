@@ -25,11 +25,16 @@ class _StatusHandler(web.RequestHandler):
 
     def _inc_count(self):
         self.requests_count += 1
-        self.status.mark_ok(
-            'processing {} request(s)'.format(self.requests_count))
+        self._mark_ok()
 
     def _drop_count(self):
         self.requests_count -= 1
         if self.requests_count <= 0:
-            self.requests_count
+            self.requests_count = 0
             self.status.mark_ok('idle')
+        else:
+            self._mark_ok()
+
+    def _mark_ok(self):
+        self.status.mark_ok(
+            'processing {} request(s)'.format(self.requests_count))
